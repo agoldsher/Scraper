@@ -1,3 +1,4 @@
+// trouble shooting javascript file that turned into the permanent file
 function loadSavedArticles(data) {
     for (var i = 0; i < data.length; i++) {
         // Display the apropos information on the page
@@ -31,12 +32,10 @@ function loadSavedArticles(data) {
       `);
     }
 }
-
-$.getJSON("/saved-articles", function (data) {
+$.getJSON("/articles/save", function (data) {
     // For each one
     loadSavedArticles(data);
 });
-
 $(document).on("click", ".delete-button", function () {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
@@ -53,7 +52,6 @@ $(document).on("click", ".delete-button", function () {
 
         });
 })
-
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function () {
     // Empty the notes from the note section
@@ -87,7 +85,6 @@ $(document).on("click", "p", function () {
             }
         });
 });
-
 // When you click the savenote button
 $(document).on("click", "#savenote", function () {
     // Grab the id associated with the article from the submit button
@@ -113,4 +110,12 @@ $(document).on("click", "#savenote", function () {
 
     // Also, remove the values entered in the input and textarea for note entry
     $("#bodyinput").val("");
+});
+$(".clear-button").on("click", function () {
+    $.ajax({
+        method: "GET",
+        url: "/delete"
+    })
+    location.reload();
+
 });

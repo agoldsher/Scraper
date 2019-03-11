@@ -87,23 +87,36 @@ app.get("/delete", function (req, res) {
       res.json(err);
     });;
 })
-app.put("/articles/:id", function (req, res) {
-  db.Article.update({
-      _id: req.params.id
-    }, {
-      $set: {
-        saved: true
-      }
+// Route for getting all Articles from the db
+app.get("/articles", function (req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({
+      saved: false
     })
     .then(function (dbArticle) {
-      // If we were able to successfully find an Article with the given id, send it back to the client
+      // If we were able to successfully find Articles, send them back to the client
       res.json(dbArticle);
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
       res.json(err);
     });
-})
+});
+app.get("/articles/save", function (req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({
+      saved: true
+    })
+    .then(function (dbArticle) {
+
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
 app.put("/articles/unsave/:id", function (req, res) {
   db.Article.update({
       _id: req.params.id
@@ -120,39 +133,7 @@ app.put("/articles/unsave/:id", function (req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
-})
-// Route for getting all Articles from the db
-app.get("/articles", function (req, res) {
-  // Grab every document in the Articles collection
-  db.Article.find({
-      saved: false
-    })
-    .then(function (dbArticle) {
-      // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
 });
-
-app.get("/saved-articles", function (req, res) {
-  // Grab every document in the Articles collection
-  db.Article.find({
-      saved: true
-    })
-    .then(function (dbArticle) {
-
-      // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
-});
-
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -170,7 +151,23 @@ app.get("/articles/:id", function (req, res) {
       res.json(err);
     });
 });
-
+app.put("/articles/:id", function (req, res) {
+  db.Article.update({
+      _id: req.params.id
+    }, {
+      $set: {
+        saved: true
+      }
+    })
+    .then(function (dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
 // Route for saving/updating an Article's associated Note
 app.post("/articles/:id", function (req, res) {
   // Create a new note and pass the req.body to the entry
@@ -196,7 +193,6 @@ app.post("/articles/:id", function (req, res) {
       res.json(err);
     });
 });
-
 // Start the server
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");

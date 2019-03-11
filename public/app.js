@@ -1,3 +1,4 @@
+// file is used for index page
 function loadArticles(data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
@@ -38,9 +39,6 @@ $.getJSON("/articles", function (data) {
   // For each one
   loadArticles(data);
 });
-
-
-
 $("#scrape").on("click", function () {
   $.ajax({
     method: "GET",
@@ -52,7 +50,7 @@ $("#scrape").on("click", function () {
     });
   })
 });
-$("#clear").on("click", function () {
+$(".clear-button").on("click", function () {
   $.ajax({
     method: "GET",
     url: "/delete"
@@ -60,8 +58,6 @@ $("#clear").on("click", function () {
   location.reload();
 
 });
-
-
 $(document).on("click", ".save-button", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");

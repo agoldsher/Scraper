@@ -1,6 +1,7 @@
+// this file went obsolete but I tried so hard to get the modals to work
 function loadSavedArticles(data) {
   for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
+
     $("#saved-article").append(`
       <div class="container mt-3">
         <div class="card" >
